@@ -1,14 +1,7 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import "./App.css";
-import Home from "./Pages/Home/Home";
 import { Toaster } from "react-hot-toast";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-]);
+import router from "./Components/Routes/routes";
 
 function App() {
   return (
