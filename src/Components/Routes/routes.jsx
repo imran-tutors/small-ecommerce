@@ -14,6 +14,8 @@ import ProductUpload from "../../Pages/Admin/ProductUpload/ProductUpload";
 import AllOrders from "../../Pages/Admin/AllOrders/AllOrders";
 import AllUsers from "../../Pages/Admin/AllUsers/AllUsers";
 import AdminProfile from "../../Pages/Admin/AdminProfile/AdminProfile";
+import { LoginCard } from "../../Pages/Login/Login";
+import { Register } from "../../Pages/Register/Register";
 
 const router = createBrowserRouter([
   {
@@ -88,11 +90,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <div>Login</div>,
+    element: <LoginCard />,
   },
   {
     path: "/register",
-    element: <div>Register</div>,
+    element: <Register />,
   },
   {
     path: "/forgot-password",
