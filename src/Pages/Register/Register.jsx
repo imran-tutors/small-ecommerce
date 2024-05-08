@@ -1,5 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
+  useCreateUserWithEmailAndPassword,
+  useSendEmailVerification,
+  useUpdateProfile,
+} from "react-firebase-hooks/auth";
+import {
   Card,
   CardHeader,
   CardBody,
@@ -11,6 +16,8 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import TextInputField from "../../Components/Shared/TextInputField";
+import auth from "../../Components/firebase.init";
+import toast from "react-hot-toast";
 
 const schema = yup
   .object({
@@ -30,16 +37,33 @@ export function Register() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
 
-  const handleRegisterForm = (data) => {
+  const [createUserWithEmailAndPassword, user, error] =
+    useCreateUserWithEmailAndPassword(auth);
+  const [updateProfile] = useUpdateProfile(auth);
+  const [sendEmailVerification] = useSendEmailVerification(auth);
+
+  const handleRegisterForm = async (data) => {
     console.log({ data });
+    const result = await createUserWithEmailAndPassword(
+      data.email,
+      data.password
+    );
+    updateProfile({ displayName: data.name });
+    sendEmailVerification();
+    if (result.user.email) {
+      toast.success("Successfully Register!");
+    }
+    reset();
+    console.log({ result });
   };
 
-  console.log({ errors });
+  console.log({ errors, user, error });
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
@@ -87,6 +111,7 @@ export function Register() {
               errors={errors}
               register={register}
             />
+            {error && <small className="text-red-500">{error.code}</small>}
           </CardBody>
           <CardFooter className="pt-0">
             <Button variant="gradient" type="submit" fullWidth>
