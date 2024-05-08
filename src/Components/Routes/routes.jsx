@@ -16,6 +16,7 @@ import AllUsers from "../../Pages/Admin/AllUsers/AllUsers";
 import AdminProfile from "../../Pages/Admin/AdminProfile/AdminProfile";
 import { LoginCard } from "../../Pages/Login/Login";
 import { Register } from "../../Pages/Register/Register";
+import RequireAuth from "../RequiredAuth/RequireAuth";
 
 const router = createBrowserRouter([
   {
@@ -50,11 +51,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: "profile",
-        element: <Profile />,
+        element: (
+          <RequireAuth>
+            <Profile />
+          </RequireAuth>
+        ),
       },
       {
         path: "orders",
-        element: <Orders />,
+        element: (
+          <RequireAuth>
+            <Orders />
+          </RequireAuth>
+        ),
       },
     ],
   },
