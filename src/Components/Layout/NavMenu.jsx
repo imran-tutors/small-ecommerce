@@ -5,11 +5,20 @@ import {
   Typography,
   Button,
   IconButton,
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import { FaUser } from "react-icons/fa";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../firebase.init";
+import { signOut } from "firebase/auth";
 
 export function NavbarDefault() {
   const [openNav, setOpenNav] = React.useState(false);
+  const [user] = useAuthState(auth);
 
   React.useEffect(() => {
     window.addEventListener(
@@ -37,9 +46,29 @@ export function NavbarDefault() {
         color="blue-gray"
         className="flex items-center gap-x-2 p-1 font-medium"
       >
-        <Button variant="gradient" size="sm" className="hidden lg:inline-block">
-          <span>Sign in</span>
-        </Button>
+        {user?.email ? (
+          <Menu>
+            <MenuHandler>
+              <IconButton>
+                <FaUser className="text-xl text-white" />
+              </IconButton>
+            </MenuHandler>
+            <MenuList>
+              <MenuItem>
+                <Link to="/dashboard/orders">Dashboard</Link>
+              </MenuItem>
+              <MenuItem onClick={() => signOut(auth)}>Logout</MenuItem>
+            </MenuList>
+          </Menu>
+        ) : (
+          <Button
+            variant="gradient"
+            size="sm"
+            className="hidden lg:inline-block"
+          >
+            <Link to="/login">Login</Link>
+          </Button>
+        )}
       </Typography>
     </ul>
   );
