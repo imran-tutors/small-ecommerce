@@ -8,11 +8,12 @@ import {
   Button,
 } from "@material-tailwind/react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import TextInputField from "../../Components/Shared/TextInputField";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from "../../Components/firebase.init";
+import useToken from "../../Components/Hooks/useToken";
 
 const schema = yup.object({
   email: yup
@@ -30,8 +31,12 @@ export function LoginCard() {
   } = useForm({
     resolver: yupResolver(schema),
   });
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const [signInWithEmailAndPassword, user, loading, error] =
+  let from = location.state?.from?.pathname || "/dashboard/orders";
+
+  const [signInWithEmailAndPassword, user, error] =
     useSignInWithEmailAndPassword(auth);
 
   const handleLoginForm = (data) => {
@@ -39,7 +44,11 @@ export function LoginCard() {
     signInWithEmailAndPassword(data.email, data.password);
   };
 
-  console.log({ user, error });
+  const [token] = useToken(user);
+
+  if (token) {
+    navigate(from, { replace: true });
+  }
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
