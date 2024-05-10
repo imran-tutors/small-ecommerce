@@ -17,6 +17,7 @@ import AdminProfile from "../../Pages/Admin/AdminProfile/AdminProfile";
 import { LoginCard } from "../../Pages/Login/Login";
 import { Register } from "../../Pages/Register/Register";
 import RequireAuth from "../RequiredAuth/RequireAuth";
+import RequireAdmin from "../RequireAdmin/RequireAdmin";
 
 const router = createBrowserRouter([
   {
@@ -73,27 +74,51 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/dashboard/admin",
-        element: <AdminDashboard />,
+        element: (
+          <RequireAdmin>
+            <AdminDashboard />
+          </RequireAdmin>
+        ),
       },
       {
         path: "inventory",
-        element: <Inventory />,
+        element: (
+          <RequireAdmin>
+            <Inventory />
+          </RequireAdmin>
+        ),
       },
       {
         path: "product-upload",
-        element: <ProductUpload />,
+        element: (
+          <RequireAdmin>
+            <ProductUpload />
+          </RequireAdmin>
+        ),
       },
       {
         path: "orders",
-        element: <AllOrders />,
+        element: (
+          <RequireAdmin>
+            <AllOrders />
+          </RequireAdmin>
+        ),
       },
       {
         path: "users",
-        element: <AllUsers />,
+        element: (
+          <RequireAdmin>
+            <AllUsers />
+          </RequireAdmin>
+        ),
       },
       {
         path: "profile",
-        element: <AdminProfile />,
+        element: (
+          <RequireAdmin>
+            <AdminProfile />
+          </RequireAdmin>
+        ),
       },
     ],
   },

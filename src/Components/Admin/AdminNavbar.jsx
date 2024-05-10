@@ -1,11 +1,10 @@
 import { useAuthState } from "react-firebase-hooks/auth";
-import auth from "../firebase.init";
 import { CiUser } from "react-icons/ci";
 import { Link } from "react-router-dom";
+import auth from "../firebase.init";
 
-export default function CustomerNavbar() {
+export default function AdminNavbar() {
   const [user] = useAuthState(auth);
-
   return (
     <div className="border-b">
       <div className="flex justify-between px-10 py-6">
