@@ -12,7 +12,7 @@ export default function useAdminCheck(user) {
     if (email) {
       fetch(`https://swiftshop-server.vercel.app/admin/${email}`, {
         method: "GET",
-        header: {
+        headers: {
           "content-type": "application/json",
           authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -22,6 +22,7 @@ export default function useAdminCheck(user) {
           if (res.status === 401 || res.status === 403) {
             signOut(auth);
             localStorage.removeItem("accessToken");
+            console.log({ res });
           }
           return res.json();
         })
