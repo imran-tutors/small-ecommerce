@@ -18,6 +18,7 @@ import { LoginCard } from "../../Pages/Login/Login";
 import { Register } from "../../Pages/Register/Register";
 import RequireAuth from "../RequiredAuth/RequireAuth";
 import RequireAdmin from "../RequireAdmin/RequireAdmin";
+import Category from "../../Pages/Category/Category";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "products/:id",
         element: <Products />,
+      },
+      {
+        path: "category/:category",
+        element: <Category />,
       },
       {
         path: "cart",
