@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import AllProducts from "../../Components/AllProducts/AllProducts";
 import HeroSection from "../../Components/HeroSection/HeroSection";
+import OfferSection from "../../Components/OfferSection/OfferSection";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
           </Link>
         </div>
       </div>
+      <OfferSection />
     </div>
   );
 }
