@@ -9,6 +9,7 @@ export default function TextInputField({
   errors,
   name,
   min,
+  disabled,
 }) {
   return (
     <div>
@@ -17,6 +18,7 @@ export default function TextInputField({
         type={type}
         size={size}
         min={min}
+        disabled={disabled}
         {...register(name)}
       />
       <small className="text-red-500">
