@@ -14,8 +14,12 @@ export default function RequireAdmin({ children }) {
     return "Loading...";
   }
 
-  if (!admin && !user) {
+  if (!admin) {
     return <Navigate to="/dashboard/" state={{ from: location }} replace />;
+  }
+
+  if (!user) {
+    return <Navigate to="/login/" state={{ from: location }} replace />;
   }
 
   return children;
