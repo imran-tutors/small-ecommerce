@@ -13,7 +13,7 @@ export default function Admin() {
       <AdminNavbar />
       <div className="flex">
         <AdminSidebar />
-        <div className="bg-gray-100 min-h-[90vh] w-full p-10">
+        <div className="bg-gray-100 h-[90vh] w-full p-10 overflow-y-scroll">
           <Outlet />
         </div>
       </div>
