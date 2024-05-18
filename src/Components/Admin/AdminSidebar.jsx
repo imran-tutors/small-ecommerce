@@ -9,17 +9,17 @@ export default function AdminSidebar() {
     <div className="w-[250px] flex flex-col justify-between py-8 px-6 bg-[rgb(24,46,16)] text-white">
       <div>
         <div className="flex flex-col gap-8">
-          <Link to="/dashboard/admin/orders" className="text-xl">
+          <Link to="/dashboard/admin/orders" className="text-xl text-white">
             All Orders
           </Link>
-          <Link to="/dashboard/admin/inventory" className="text-xl">
+          <Link to="/dashboard/admin/inventory" className="text-xl text-white">
             Inventory
           </Link>
-          <Link to="/dashboard/admin/users" className="text-xl">
+          <Link to="/dashboard/admin/users" className="text-xl text-white">
             Users
           </Link>
 
-          <Link to="/dashboard/admin/profile" className="text-xl">
+          <Link to="/dashboard/admin/profile" className="text-xl text-white">
             Profile
           </Link>
         </div>

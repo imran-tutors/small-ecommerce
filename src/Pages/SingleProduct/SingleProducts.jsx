@@ -6,6 +6,18 @@ import { useForm } from "react-hook-form";
 import { Button } from "@material-tailwind/react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../Components/firebase.init";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import toast from "react-hot-toast";
+
+const schema = yup.object({
+  email: yup.string().required("Email is required"),
+  quantity: yup
+    .number()
+    .typeError("Quantity is required")
+    .required("Quantity is required"),
+  address: yup.string().required("Address is required"),
+});
 
 export default function SingleProducts() {
   const params = useParams();
@@ -15,10 +27,17 @@ export default function SingleProducts() {
   const {
     register,
     handleSubmit,
-    watch,
+    // watch,
     setValue,
+    // reset,
+    resetField,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      quantity: 1,
+    },
+  });
 
   useEffect(() => {
     fetch(`https://swiftshop-server.vercel.app/product/${params.id}`)
@@ -30,7 +49,69 @@ export default function SingleProducts() {
     setValue("email", user.email);
   }, [user]);
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    let payload = {
+      email: data.email,
+      quantity: data.quantity,
+      address: data.address,
+      productId: product._id,
+      productImage: product.image,
+      productTitle: product.title,
+      productPrice: product.price,
+      productCategory: product.category,
+      productTotal: product.price * data.quantity,
+      status: "pending",
+    };
+    if (data.quantity > product.quantity) {
+      toast.error("Quantity is not available");
+    } else {
+      const isProceed = window.confirm("Are you sure to proceed?");
+      if (isProceed) {
+        console.log({ data });
+
+        fetch("http://localhost:5000/order", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+          body: JSON.stringify(payload),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.acknowledged) {
+              toast.success("Successfully ordered");
+            }
+          })
+          // eslint-disable-next-line no-unused-vars
+          .catch((error) => toast.error("Something went wrong"));
+
+        const afterOrderQuantity = product.quantity - data.quantity;
+
+        let newQuantityPayload = {
+          quantity: afterOrderQuantity,
+        };
+
+        fetch(`http://localhost:5000/order-quantity/${product._id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+          body: JSON.stringify(newQuantityPayload),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.modifiedCount) {
+              setProduct({ ...product, quantity: afterOrderQuantity });
+
+              resetField("quantity");
+              resetField("address");
+            }
+          });
+      }
+    }
+  };
 
   console.log(product);
 
@@ -74,6 +155,7 @@ export default function SingleProducts() {
                   label="Enter Quantity"
                   type="number"
                   size="lg"
+                  min={0}
                 />
               </div>
               <div>

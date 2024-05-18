@@ -9,10 +9,10 @@ export default function CustomerSidebar() {
     <div className="w-[250px] flex flex-col justify-between py-8 px-6 bg-[rgb(14,12,47)] text-white">
       <div>
         <div className="flex flex-col gap-8">
-          <Link to="/dashboard/orders" className="text-xl">
+          <Link to="/dashboard/orders" className="text-xl  text-white">
             Orders
           </Link>
-          <Link to="/dashboard/profile" className="text-xl">
+          <Link to="/dashboard/profile" className="text-xl  text-white">
             Profile
           </Link>
         </div>
